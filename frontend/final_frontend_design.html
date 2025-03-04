@@ -71,7 +71,6 @@
             width: 100%;
             margin-top: 10px;
         }
-        /* Styling for the description */
         .description {
             font-size: 14px;
             color: #ccc;
@@ -93,7 +92,6 @@
     <p class="description">Secure and professional voice recording</p>
 
     <div class="container">
-        <!-- Send Message Section -->
         <div class="box">
             <h2>Send Audio Message</h2>
             <button class="start-btn" onclick="startRecording()">Start Recording</button>
@@ -111,7 +109,6 @@
             </div>
         </div>
 
-        <!-- Receive Message Section -->
         <div class="box">
             <h2>Receive Audio Message</h2>
             <input type="text" id="receiveCode" placeholder="Enter code here">
@@ -132,8 +129,7 @@
         let audioUrl;
         let generatedCode = "";
         let progressInterval;
-        let requestId; // To store requestAnimationFrame ID
-
+        let requestId;
         function startRecording() {
             navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
                 mediaRecorder = new MediaRecorder(stream);
@@ -143,7 +139,6 @@
                     audioChunks.push(event.data);
                 };
 
-                // Reset progress bar and start updating it
                 document.getElementById("progressBar").style.width = "0%";
                 let progress = 0;
                 progressInterval = setInterval(() => {
@@ -163,8 +158,8 @@
                 document.getElementById("audioPlayer").src = audioUrl;
                 generatedCode = generateCode();
                 document.getElementById("codeInput").value = generatedCode;
-                clearInterval(progressInterval); // Stop progress bar update when recording stops
-                document.getElementById("progressBar").style.width = "0%"; // Reset the progress bar
+                clearInterval(progressInterval);
+                document.getElementById("progressBar").style.width = "0%"; 
             };
         }
 
@@ -194,7 +189,6 @@
             }
         }
 
-        // Update the progress bar as the audio plays
         function updateProgressBar(audioElement, progressBarId) {
             const progressBar = document.getElementById(progressBarId);
             audioElement.ontimeupdate = () => {
@@ -202,22 +196,19 @@
                 progressBar.style.width = progress + "%";
             };
 
-            // When the audio ends, reset the progress bar to 0%
             audioElement.onended = () => {
                 progressBar.style.width = "0%";
             };
 
-            // Using requestAnimationFrame for smoother progress bar updates
             function smoothUpdate() {
                 const progress = (audioElement.currentTime / audioElement.duration) * 100;
                 progressBar.style.width = progress + "%";
                 requestId = requestAnimationFrame(smoothUpdate);
             }
-            smoothUpdate(); // Start smooth updates
+            smoothUpdate(); 
 
             audioElement.onpause = () => {
-                cancelAnimationFrame(requestId); // Stop the animation frame when paused
-            };
+                cancelAnimationFrame(requestId); 
         }
     </script>
 
